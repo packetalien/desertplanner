@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dune: Awakening - Base Build Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Dune: Awakening - Base Build Calculator</h1>
+    </header>
+    <main class="calculator-layout">
+        <section id="item-selection-panel" class="panel">
+            <h2>Available Components</h2>
+            <div id="component-list">
+                <!-- Items will be populated here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="current-build-panel" class="panel">
+            <h2>Current Build</h2>
+            <div id="selected-items-list">
+                <!-- Selected items will be populated here -->
+                <p class="empty-build-message">Your build is currently empty. Add components from the left panel.</p>
+            </div>
+        </section>
+
+        <section id="total-materials-panel" class="panel">
+            <h2>Total Materials Required</h2>
+            <div id="materials-summary-list">
+                <!-- Consolidated materials will be populated here -->
+                <p class="empty-totals-message">No materials required yet.</p>
+            </div>
+            <div id="power-summary" style="margin-top: 20px;">
+                 <h3>Power Overview</h3>
+                 <p>Net Power: <span id="net-power">0</span></p>
+                 <!-- More power details can be added if needed, e.g., total generation/consumption -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Data sourced from community efforts. Costs for some items are estimated. Faction item costs are TBD.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
