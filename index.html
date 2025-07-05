@@ -43,5 +43,47 @@
         <p>Data sourced from community efforts. Costs for some items are estimated. Faction item costs are TBD.</p>
     </footer>
     <script src="app.js"></script>
+=======
+    <title>Dune Awakening - Desert Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dune Awakening - Desert Planner</h1>
+        </header>
+
+        <main>
+            <section id="item-selection-section">
+                <h2>Select Your Gear:</h2>
+                <div id="item-list">
+                    <!-- Items will be populated here by JavaScript -->
+                </div>
+            </section>
+
+            <section id="summary-section">
+                <h2>Mission Loadout Summary:</h2>
+
+                <div id="materials-summary">
+                    <h3>Required Materials:</h3>
+                    <ul id="materials-list">
+                        <!-- Material totals will be populated here -->
+                    </ul>
+                </div>
+
+                <div id="power-summary">
+                    <h3>Power Overview:</h3>
+                    <p>Total Power Generated: <span id="total-power-generated">0</span></p>
+                    <p>Total Power Consumed: <span id="total-power-consumed">0</span></p>
+                    <p>Net Power: <span id="net-power">0</span></p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Remember, Arrakis is a harsh mistress. Plan wisely.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
