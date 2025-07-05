@@ -1,0 +1,56 @@
+{
+  "materials": {
+    "plastone": {
+      "name": "Plastone",
+      "description": "An advanced, sandstorm-resistant material for faction-specific structures.",
+      "crafting_recipe": [
+        {
+          "refinery": "Large Ore Refinery",
+          "materials": [{"name": "Basalt Stone", "quantity": 175}, {"name": "Silicone Block", "quantity": 1}, {"name": "Water", "quantity": "50mL"}],
+          "yield": 250
+        }
+      ]
+    }
+  },
+  "building_sets": [
+    {
+      "category": "Structures (CHOAM - Estimated)",
+      "items": [
+        {"name": "Standard Piece (Wall/Roof)", "material": "Granite Stone", "cost_min": 8, "cost_max": 10},
+        {"name": "Foundation", "material": "Granite Stone", "cost_min": 12, "cost_max": 15},
+        {"name": "Door", "material": "Granite Stone", "cost_min": 13, "cost_max": 17},
+        {"name": "Wide Door", "material": "Granite Stone", "cost_min": 24, "cost_max": 30},
+        {"name": "Hatch", "material": "Granite Stone", "cost_min": 12, "cost_max": 17}
+      ]
+    },
+    {
+      "category": "Structures (Atreides - Plastone)",
+      "unlock_cost": "80,000 Solari",
+      "note": "Individual piece costs are not yet available.",
+      "items": []
+    },
+    {
+      "category": "Structures (Harkonnen - Plastone)",
+      "unlock_cost": "80,000 Solari",
+      "note": "Individual piece costs are not yet available.",
+      "items": []
+    }
+  ],
+  "placeables": [
+    {
+      "category": "Utilities",
+      "items": [
+        {"name": "Sub-Fief Console", "power": -15, "cost": [{"name": "Salvaged Metal", "quantity": 25}]},
+        {"name": "Advanced Sub-Fief Console", "power": -15, "cost": [{"name": "Salvaged Metal", "quantity": 40}]},
+        {"name": "Fuel-Powered Generator", "power": 75, "cost": [{"name": "Salvaged Metal", "quantity": 45}]},
+        {"name": "Wind Turbine Omnidirectional", "power": 150, "cost": [{"name": "Steel Ingot", "quantity": 45}, {"name": "Cobalt Paste", "quantity": 65}, {"name": "Calibrated Servok", "quantity": 20}]},
+        {"name": "Wind Turbine Directional", "power": 350, "cost": [{"name": "Duraluminum Ingot", "quantity": 120}, {"name": "Cobalt Paste", "quantity": 160}, {"name": "Calibrated Servok", "quantity": 50}, {"name": "Spice Melange", "quantity": 3}]},
+        {"name": "Spice-Powered Generator", "power": 1000, "cost": [{"name": "Plastanium Ingot", "quantity": 430}, {"name": "Silicone Block", "quantity": 180}, {"name": "Spice Melange", "quantity": 270}, {"name": "Complex Machinery", "quantity": 100}, {"name": "Cobalt Paste", "quantity": 300}, {"name": "Advanced Machinery", "quantity": 40}]},
+        {"name": "Repair Station", "power": -20, "cost": [{"name": "Iron Ingot", "quantity": 40}]},
+        {"name": "Recycler", "power": -15, "cost": [{"name": "Copper Ingot", "quantity": 30}]},
+        {"name": "Windtrap", "power": -75, "cost": [{"name": "Steel Ingot", "quantity": 90}, {"name": "Silicone Block", "quantity": 30}, {"name": "Calibrated Servok", "quantity": 20}]},
+        {"name": "Large Windtrap", "power": -135, "cost": [{"name": "Silicone Block", "quantity": 250}, {"name": "Calibrated Servok", "quantity": 70}, {"name": "Spice Melange", "quantity": 5}, {"name": "Duraluminum Ingot", "quantity": 240}]}
+      ]
+    }
+  ]
+}
