@@ -101,41 +101,44 @@ Storage Container,,,,,45,,,,,,8,,,,,,,
             const itemEntryDiv = document.createElement('div');
             itemEntryDiv.classList.add('item-entry');
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `item-${index}`;
-            checkbox.value = item.name;
-            checkbox.addEventListener('change', calculateTotals);
-
             const label = document.createElement('label');
-            label.htmlFor = `item-${index}`;
+            label.htmlFor = `item-qty-${index}`;
             label.textContent = item.name;
 
-            itemEntryDiv.appendChild(checkbox);
-            itemEntryDiv.appendChild(label);
+            const numberInput = document.createElement('input');
+            numberInput.type = 'number';
+            numberInput.id = `item-qty-${index}`;
+            numberInput.value = 0; // Default to 0, meaning not selected
+            numberInput.min = 0;
+            numberInput.max = 10;
+            numberInput.dataset.itemName = item.name; // Store item name for easy retrieval
+            numberInput.addEventListener('input', calculateTotals); // 'input' for more responsive updates
+
+            itemEntryDiv.appendChild(label); // Label first for better layout with number input
+            itemEntryDiv.appendChild(numberInput);
             itemListDiv.appendChild(itemEntryDiv);
         });
     }
 
     function calculateTotals() {
-        const selectedItems = [];
-        document.querySelectorAll('#item-list input[type="checkbox"]:checked').forEach(checkbox => {
-            const item = allItems.find(i => i.name === checkbox.value);
-            if (item) {
-                selectedItems.push(item);
-            }
-        });
-
         const totalMaterials = {};
         let totalPowerGenerated = 0;
         let totalPowerConsumed = 0;
 
-        selectedItems.forEach(item => {
-            for (const material in item.materials) {
-                totalMaterials[material] = (totalMaterials[material] || 0) + item.materials[material];
+        document.querySelectorAll('#item-list input[type="number"]').forEach(numberInput => {
+            const quantity = parseInt(numberInput.value, 10);
+            const itemName = numberInput.dataset.itemName;
+
+            if (quantity > 0 && itemName) {
+                const item = allItems.find(i => i.name === itemName);
+                if (item) {
+                    for (const material in item.materials) {
+                        totalMaterials[material] = (totalMaterials[material] || 0) + (item.materials[material] * quantity);
+                    }
+                    totalPowerGenerated += (item.powerGenerated || 0) * quantity;
+                    totalPowerConsumed += (item.powerCost || 0) * quantity;
+                }
             }
-            totalPowerGenerated += item.powerGenerated || 0;
-            totalPowerConsumed += item.powerCost || 0;
         });
 
         displayTotals(totalMaterials, totalPowerGenerated, totalPowerConsumed);
