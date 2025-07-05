@@ -1,0 +1,225 @@
+/* Basic Reset & Body */
+body, h1, h2, h3, p, ul, li, div, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4; /* Light grey background */
+    color: #333; /* Dark grey text */
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+header h1 {
+    color: #2c3e50; /* Dark blue-grey for title */
+}
+
+/* Calculator Layout */
+.calculator-layout {
+    display: flex;
+    gap: 20px; /* Space between panels */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.panel {
+    background-color: #fff; /* White background for panels */
+    padding: 15px;
+    border: 1px solid #ddd; /* Light border for panels */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+#item-selection-panel {
+    flex: 1; /* Takes up 1 part of available space */
+    min-width: 300px; /* Minimum width before wrapping */
+}
+
+#current-build-panel {
+    flex: 1.5; /* Takes up 1.5 parts of available space */
+    min-width: 350px;
+}
+
+#total-materials-panel {
+    flex: 1;
+    min-width: 300px;
+}
+
+.panel h2 {
+    font-size: 1.4em;
+    color: #34495e; /* Slightly lighter blue-grey for panel titles */
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Item Styling (in selection panel) */
+.component-category {
+    margin-bottom: 15px;
+}
+
+.component-category h3 {
+    font-size: 1.1em;
+    color: #7f8c8d; /* Grey for category titles */
+    margin-bottom: 8px;
+}
+
+.component-item {
+    background-color: #ecf0f1; /* Very light grey for item background */
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border: 1px solid #bdc3c7;
+}
+
+.component-item p {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.component-item .item-name {
+    font-weight: bold;
+}
+
+.component-item .item-cost,
+.component-item .item-power,
+.component-item .item-note {
+    font-size: 0.85em;
+    color: #555;
+}
+
+.component-item .item-cost span,
+.component-item .item-power span {
+    font-weight: normal;
+    color: #333;
+}
+
+/* Styling for items with estimated costs in the selection panel */
+.cost-estimated-item .item-cost,
+.cost-estimated-item .item-name { /* Make name also hint it's estimated */
+    /* color: #d35400; */ /* Darker orange for text if needed */
+}
+.cost-estimated-item .item-cost::after {
+    content: " (est.)";
+    font-style: italic;
+    font-size: 0.9em;
+    color: #e67e22; /* Orange for (est.) text */
+}
+
+/* Styling for items with unavailable costs in the selection panel */
+.cost-unavailable-item .item-cost,
+.cost-unavailable-item .item-note {
+    color: #7f8c8d; /* Grey for unavailable/note text */
+    font-style: italic;
+}
+
+/* General classes for text styling if needed directly in JS, though handled by item classes above mostly */
+.cost-estimated-text {
+    font-style: italic;
+    color: #e67e22; /* Orange for estimated costs */
+}
+
+.cost-unavailable-text {
+    font-style: italic;
+    color: #95a5a6; /* Grey for unavailable costs */
+}
+
+.add-item-btn, .remove-item-btn {
+    background-color: #3498db; /* Blue for add button */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+}
+
+.add-item-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Current Build Panel Styling */
+#selected-items-list .selected-item {
+    background-color: #e8f6fd; /* Light blue for selected items */
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border: 1px solid #aed6f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#selected-items-list .selected-item-details {
+    flex-grow: 1;
+}
+
+.remove-item-btn {
+    background-color: #e74c3c; /* Red for remove button */
+    margin-left: 10px;
+}
+
+.remove-item-btn:hover {
+    background-color: #c0392b;
+}
+
+.empty-build-message, .empty-totals-message {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Total Materials Panel Styling */
+#materials-summary-list ul {
+    list-style-type: none;
+}
+
+#materials-summary-list li {
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95em;
+}
+#materials-summary-list li:last-child {
+    border-bottom: none;
+}
+
+#power-summary p, #power-summary h3 {
+    font-size: 0.95em;
+}
+#power-summary #net-power {
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .calculator-layout {
+        flex-direction: column; /* Stack panels vertically */
+    }
+    .panel {
+        min-width: 100%; /* Panels take full width */
+        margin-bottom: 20px;
+    }
+}
