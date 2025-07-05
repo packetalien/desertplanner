@@ -1,0 +1,135 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light grey text */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #2c2c2c; /* Slightly lighter dark shade for content background */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+header h1 {
+    color: #d4a373; /* Sandy/gold accent for title */
+    font-size: 2.5em;
+    margin: 0;
+}
+
+h2, h3 {
+    color: #faebd7; /* Antique white / light sand for headings */
+    margin-top: 1.5em;
+}
+
+h2 {
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.3em;
+    margin-bottom: 1em;
+}
+
+/* Item Selection Area */
+#item-selection-section {
+    margin-bottom: 30px;
+}
+
+#item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+.item-entry {
+    padding: 10px;
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.item-entry input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Make checkboxes slightly larger */
+    accent-color: #d4a373; /* Sandy/gold accent for checkbox */
+}
+
+.item-entry label {
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* Summary Section */
+#summary-section {
+    padding: 20px;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+#materials-summary ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#materials-summary li {
+    padding: 5px 0;
+    border-bottom: 1px dashed #555;
+}
+
+#materials-summary li:last-child {
+    border-bottom: none;
+}
+
+#power-summary p {
+    margin: 8px 0;
+    font-size: 1.1em;
+}
+
+#total-power-generated {
+    color: #77dd77; /* Green for generated power */
+}
+
+#total-power-consumed {
+    color: #ff6961; /* Red for consumed power */
+}
+
+#net-power {
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+/* Links - though none are present in current HTML structure for the app itself */
+a {
+    color: #d4a373; /* Sandy/gold accent for links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
