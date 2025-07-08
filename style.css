@@ -34,7 +34,6 @@ header h1 {
     font-size: 0.9em;
 }
 
-
 /* Calculator Layout */
 .calculator-layout {
     display: flex;
@@ -53,16 +52,19 @@ header h1 {
 #item-selection-panel {
     flex: 1; /* Takes up 1 part of available space */
     min-width: 300px; /* Minimum width before wrapping */
-}
-
-#current-build-panel {
-    flex: 1.5; /* Takes up 1.5 parts of available space */
-    min-width: 350px;
+    order: 1; /* Left */
 }
 
 #total-materials-panel {
     flex: 1;
     min-width: 300px; /* Adjusted for two sub-sections */
+    order: 2; /* Center */
+}
+
+#current-build-panel {
+    flex: 1.5; /* Takes up 1.5 parts of available space */
+    min-width: 350px;
+    order: 3; /* Right */
 }
 
 .panel h2 { /* General panel titles */
@@ -80,7 +82,6 @@ header h1 {
     margin-bottom: 10px;
 }
 
-
 /* Item Styling (in selection panel) */
 .component-category {
     margin-bottom: 15px;
@@ -94,73 +95,28 @@ header h1 {
     padding-bottom: 4px;
 }
 
-.component-item {
-    background-color: #333; /* Slightly lighter than panel for item background */
+.category-dropdown {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.item-details {
+    background-color: #333;
     padding: 10px;
-    margin-bottom: 8px;
+    margin-top: 5px;
     border-radius: 4px;
     border: 1px solid #555;
 }
 
-.component-item p { /* General paragraph styling within an item card */
+.item-details p {
     font-size: 0.9em;
-    margin-bottom: 3px; /* Reduced margin for tighter packing of details */
     color: #ccc;
-}
-
-.component-item .item-name {
-    font-weight: bold;
-    color: #e0e0e0;
-    font-size: 1em; /* Slightly larger for the name */
-    margin-bottom: 8px;
-}
-.component-item .item-name .notes-indicator {
-    font-size: 0.7em;
-    margin-left: 5px;
-    cursor: help;
-}
-
-
-/* Styling for the container of all detail fields */
-.item-details-container p {
-    font-size: 0.85em; /* Smaller font for all specific details */
-    color: #bbb;
-    margin-left: 10px; /* Indent details slightly */
-    line-height: 1.4;
-}
-.item-details-container p strong {
-    color: #d4a373; /* Accent color for labels like "Cost:", "Power:" */
-}
-
-
-/* Specific classes for new data fields in item selection */
-.component-item .item-crafting-materials,
-.component-item .item-power-consumption,
-.component-item .item-output,
-.component-item .item-fuel,
-.component-item .item-station,
-.component-item .item-operational-notes {
-    /* Most styling handled by .item-details-container p, add specifics if needed */
-}
-.component-item .item-operational-notes {
-    font-style: italic;
-    color: #a0a0a0; /* Dimmer for notes */
-}
-
-
-/* Styling for items with estimated costs in the selection panel */
-.cost-estimated-item .item-crafting-materials::after { /* Assuming cost is shown via item-crafting-materials */
-    content: " (est.)";
-    font-style: italic;
-    font-size: 0.9em;
-    color: #e67e22; /* Orange for (est.) text */
-    margin-left: 5px;
-}
-
-/* Styling for items with unavailable costs in the selection panel (less relevant now with specific fields) */
-.cost-unavailable-item .item-crafting-materials { /* If an item truly has no cost listed */
-    color: #888;
-    font-style: italic;
+    margin-bottom: 5px;
 }
 
 /* Current Build Panel Styling - selected items */
@@ -201,7 +157,6 @@ header h1 {
     color: #999;
 }
 
-
 .add-item-btn, .remove-item-btn {
     background-color: #5a9bd5;
     color: white;
@@ -219,23 +174,6 @@ header h1 {
 
 .add-item-btn:hover {
     background-color: #4a8ac9; /* Darker blue on hover */
-}
-
-/* Current Build Panel Styling */
-#selected-items-list .selected-item {
-    background-color: #3a3a3a; /* Darker background for selected items */
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 4px;
-    border: 1px solid #555;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #e0e0e0;
-}
-
-#selected-items-list .selected-item-details {
-    flex-grow: 1;
 }
 
 .remove-item-btn {
@@ -269,7 +207,6 @@ header h1 {
     border-radius: 4px;
     border: 1px solid #4a4a4a;
 }
-
 
 #materials-summary-list ul,
 #materials-summary-discounted-list ul {
@@ -307,6 +244,7 @@ header h1 {
 #power-summary #net-power {
     font-weight: bold;
 }
+
 /* Footer */
 footer {
     text-align: center;
@@ -343,4 +281,60 @@ footer {
     background-color: #402020;
     border: 1px solid #ff6961;
     border-radius: 4px;
+}
+
+/* Search Input */
+#item-search {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.quantity-controls button {
+    background-color: #5a9bd5;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.quantity-controls button:hover {
+    background-color: #4a8ac9;
+}
+.quantity-controls span {
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Current Build Panel Additions */
+#selected-items-list .item-crafting-materials,
+#selected-items-list .item-power,
+#selected-items-list .item-operational-notes {
+    font-size: 0.85em;
+    color: #bbb;
+    margin-left: 10px;
+    line-height: 1.4;
+}
+#selected-items-list .item-operational-notes {
+    font-style: italic;
+    color: #a0a0a0;
+}
+
+/* Warning Message */
+.warning-message {
+    color: #ff6961;
+    font-weight: bold;
+    margin-top: 10px;
 }

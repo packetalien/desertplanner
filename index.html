@@ -14,46 +14,35 @@
     <main class="calculator-layout">
         <section id="item-selection-panel" class="panel">
             <h2>Available Components</h2>
-            <div id="component-list">
-                <!-- Items will be populated here by JavaScript -->
-            </div>
+            <input type="text" id="item-search" placeholder="Search items...">
+            <div id="component-list"></div>
         </section>
-
         <section id="current-build-panel" class="panel">
             <h2>Current Build</h2>
-            <div id="selected-items-list">
-                <!-- Selected items will be populated here -->
-                <p class="empty-build-message">Your build is currently empty. Add components from the left panel.</p>
-            </div>
+            <div id="selected-items-list"></div>
         </section>
-
         <section id="total-materials-panel" class="panel">
             <h2>Totals</h2>
             <div class="totals-container">
                 <div id="original-costs-container">
                     <h3>Required Materials (Original Cost)</h3>
-                    <div id="materials-summary-list">
-                        <!-- Consolidated materials will be populated here -->
-                        <p class="empty-totals-message">No materials required yet.</p>
-                    </div>
+                    <div id="materials-summary-list"></div>
                 </div>
                 <div id="discounted-costs-container">
                     <h3>Deep Desert Discount (50% off, rounded up)</h3>
-                    <div id="materials-summary-discounted-list">
-                        <!-- Discounted materials will be populated here -->
-                        <p class="empty-totals-message">No materials to discount.</p>
-                    </div>
+                    <div id="materials-summary-discounted-list"></div>
                 </div>
             </div>
             <div id="power-summary" style="margin-top: 20px;">
-                 <h3>Power Overview</h3>
-                 <p>Net Power: <span id="net-power">0</span></p>
+                <h3>Power Overview</h3>
+                <p>Total Power Generated: <span id="total-power-generated">0</span> W</p>
+                <p>Total Power Consumed: <span id="total-power-consumed">0</span> W</p>
+                <p>Net Power: <span id="net-power">0</span> W</p>
+                <div id="power-warning"></div>
             </div>
         </section>
     </main>
-    <footer>
-        <!-- Removed footer message as per request -->
-    </footer>
+    <footer></footer>
     <script src="app.js"></script>
 </body>
 </html>
