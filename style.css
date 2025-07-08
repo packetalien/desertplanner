@@ -299,20 +299,37 @@ h2 {
     padding: 20px;
     background-color: #333;
     border-radius: 5px;
+    display: flex; /* Added for side-by-side layout */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 20px; /* Space between summary boxes */
 }
 
-#materials-summary ul {
+#materials-summary-original, #materials-summary-discounted {
+    flex: 1; /* Each takes equal space */
+    min-width: 250px; /* Minimum width before wrapping */
+    padding: 15px;
+    background-color: #3a3a3a; /* Slightly different background for these boxes */
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+#materials-summary-original ul, #materials-summary-discounted ul {
     list-style-type: none;
     padding-left: 0;
 }
 
-#materials-summary li {
+#materials-summary-original li, #materials-summary-discounted li {
     padding: 5px 0;
     border-bottom: 1px dashed #555;
 }
 
-#materials-summary li:last-child {
+#materials-summary-original li:last-child, #materials-summary-discounted li:last-child {
     border-bottom: none;
+}
+
+#power-summary {
+    width: 100%; /* Make power summary take full width if it wraps */
+    margin-top: 20px; /* Add some space if it wraps below material summaries */
 }
 
 #power-summary p {

@@ -142,10 +142,17 @@ Storage Container,,,,,45,,,,,,8,,,,,,,
         });
 
         displayTotals(totalMaterials, totalPowerGenerated, totalPowerConsumed);
+
+        // Calculate discounted totals
+        const discountedTotalMaterials = {};
+        for (const material in totalMaterials) {
+            discountedTotalMaterials[material] = Math.ceil(totalMaterials[material] / 2);
+        }
+        displayDiscountedTotals(discountedTotalMaterials);
     }
 
     function displayTotals(materials, powerGenerated, powerConsumed) {
-        const materialsListUl = document.getElementById('materials-list');
+        const materialsListUl = document.getElementById('materials-list-original'); // Changed ID
         if (materialsListUl) {
             materialsListUl.innerHTML = ''; // Clear previous list
             if (Object.keys(materials).length === 0) {
@@ -172,6 +179,22 @@ Storage Container,,,,,45,,,,,,8,,,,,,,
                 netPowerSpan.style.color = '#77dd77'; // Green for positive or zero net
             } else {
                 netPowerSpan.style.color = '#ff6961'; // Red for negative net
+            }
+        }
+    }
+
+    function displayDiscountedTotals(discountedMaterials) {
+        const materialsListDiscountedUl = document.getElementById('materials-list-discounted');
+        if (materialsListDiscountedUl) {
+            materialsListDiscountedUl.innerHTML = ''; // Clear previous list
+            if (Object.keys(discountedMaterials).length === 0) {
+                materialsListDiscountedUl.innerHTML = '<li>No materials to discount.</li>';
+            } else {
+                for (const material in discountedMaterials) {
+                    const li = document.createElement('li');
+                    li.textContent = `${material}: ${discountedMaterials[material]}`;
+                    materialsListDiscountedUl.appendChild(li);
+                }
             }
         }
     }
