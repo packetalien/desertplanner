@@ -6,7 +6,7 @@ let currentBuild = []; // Array to store items added by the user
 let nextItemId = 0; // Simple ID generator for items in currentBuild
 
 // DOM Elements (cache them for performance)
-let componentListDiv, selectedItemsListDiv, materialsSummaryListDiv, netPowerSpan;
+let componentListDiv, selectedItemsListDiv, materialsSummaryListDiv, materialsSummaryDiscountedListDiv, netPowerSpan;
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Calculator Initializing...");
@@ -15,17 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     componentListDiv = document.getElementById('component-list');
     selectedItemsListDiv = document.getElementById('selected-items-list');
     materialsSummaryListDiv = document.getElementById('materials-summary-list');
+    materialsSummaryDiscountedListDiv = document.getElementById('materials-summary-discounted-list'); // Added
     netPowerSpan = document.getElementById('net-power');
 
-    if (!componentListDiv || !selectedItemsListDiv || !materialsSummaryListDiv || !netPowerSpan) {
+    if (!componentListDiv || !selectedItemsListDiv || !materialsSummaryListDiv || !materialsSummaryDiscountedListDiv || !netPowerSpan) {
         console.error("Critical DOM elements not found! Check your HTML IDs.");
         return;
     }
 
     loadBuildingData();
-    // Initial render of empty states (will be refined)
+    // Initial render of empty states
     updateCurrentBuildPanel();
-    updateTotalsPanel();
+    updateTotalsPanel({}, {}, 0); // Pass empty objects and 0 power initially
 });
 
 async function loadBuildingData() {
@@ -267,14 +268,21 @@ function calculateAndDisplayTotals() {
         }
     });
 
-    updateTotalsPanel(totalMaterials, totalNetPower);
+    const discountedTotalMaterials = {};
+    for (const material in totalMaterials) {
+        discountedTotalMaterials[material] = Math.ceil(totalMaterials[material] / 2);
+    }
+    updateTotalsPanel(totalMaterials, discountedTotalMaterials, totalNetPower);
 }
 
-function updateTotalsPanel(calculatedMaterials, calculatedNetPower) {
-    if (!materialsSummaryListDiv || !netPowerSpan) return;
+function updateTotalsPanel(calculatedMaterials, calculatedDiscountedMaterials, calculatedNetPower) {
+    if (!materialsSummaryListDiv || !materialsSummaryDiscountedListDiv || !netPowerSpan) {
+        console.error("One or more summary DOM elements not found in updateTotalsPanel.");
+        return;
+    }
 
-    materialsSummaryListDiv.innerHTML = ''; // Clear previous materials
-
+    // Update Original Materials
+    materialsSummaryListDiv.innerHTML = '';
     if (Object.keys(calculatedMaterials).length === 0) {
         materialsSummaryListDiv.innerHTML = '<ul><li class="empty-totals-message">No materials required yet.</li></ul>';
     } else {
@@ -287,8 +295,21 @@ function updateTotalsPanel(calculatedMaterials, calculatedNetPower) {
         materialsSummaryListDiv.appendChild(ul);
     }
 
+    // Update Discounted Materials
+    materialsSummaryDiscountedListDiv.innerHTML = '';
+    if (Object.keys(calculatedDiscountedMaterials).length === 0) {
+         materialsSummaryDiscountedListDiv.innerHTML = '<ul><li class="empty-totals-message">No materials to discount.</li></ul>';
+    } else {
+        const ulDiscounted = document.createElement('ul');
+        for (const materialName in calculatedDiscountedMaterials) {
+            const li = document.createElement('li');
+            li.textContent = `${materialName}: ${calculatedDiscountedMaterials[materialName]}`;
+            ulDiscounted.appendChild(li);
+        }
+        materialsSummaryDiscountedListDiv.appendChild(ulDiscounted);
+    }
+
     netPowerSpan.textContent = calculatedNetPower;
-    // Optional: Add color coding for net power if desired (e.g., red for negative)
     if (calculatedNetPower < 0) {
         netPowerSpan.style.color = 'red';
     } else if (calculatedNetPower > 0) {

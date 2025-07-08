@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <p style="text-align: center; font-style: italic; margin: 10px 0 20px 0; color: #ccc;">This tool attempts to be as accurate as possible. The Deep Desert discounts change. You "should" get all resources back. It "should be" 50% off rounded up.</p>
     <header>
         <h1>Dune: Awakening - Base Build Calculator</h1>
     </header>
@@ -27,15 +28,26 @@
         </section>
 
         <section id="total-materials-panel" class="panel">
-            <h2>Total Materials Required</h2>
-            <div id="materials-summary-list">
-                <!-- Consolidated materials will be populated here -->
-                <p class="empty-totals-message">No materials required yet.</p>
+            <h2>Totals</h2>
+            <div class="totals-container">
+                <div id="original-costs-container">
+                    <h3>Required Materials (Original Cost)</h3>
+                    <div id="materials-summary-list">
+                        <!-- Consolidated materials will be populated here -->
+                        <p class="empty-totals-message">No materials required yet.</p>
+                    </div>
+                </div>
+                <div id="discounted-costs-container">
+                    <h3>Deep Desert Discount (50% off, rounded up)</h3>
+                    <div id="materials-summary-discounted-list">
+                        <!-- Discounted materials will be populated here -->
+                        <p class="empty-totals-message">No materials to discount.</p>
+                    </div>
+                </div>
             </div>
             <div id="power-summary" style="margin-top: 20px;">
                  <h3>Power Overview</h3>
                  <p>Net Power: <span id="net-power">0</span></p>
-                 <!-- More power details can be added if needed, e.g., total generation/consumption -->
             </div>
         </section>
     </main>
@@ -43,47 +55,5 @@
         <p>Data sourced from community efforts. Costs for some items are estimated. Faction item costs are TBD.</p>
     </footer>
     <script src="app.js"></script>
-=======
-    <title>Dune Awakening - Desert Planner</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Dune Awakening - Desert Planner</h1>
-        </header>
-
-        <main>
-            <section id="item-selection-section">
-                <h2>Select Your Gear:</h2>
-                <div id="item-list">
-                    <!-- Items will be populated here by JavaScript -->
-                </div>
-            </section>
-
-            <section id="summary-section">
-                <h2>Mission Loadout Summary:</h2>
-
-                <div id="materials-summary">
-                    <h3>Required Materials:</h3>
-                    <ul id="materials-list">
-                        <!-- Material totals will be populated here -->
-                    </ul>
-                </div>
-
-                <div id="power-summary">
-                    <h3>Power Overview:</h3>
-                    <p>Total Power Generated: <span id="total-power-generated">0</span></p>
-                    <p>Total Power Consumed: <span id="total-power-consumed">0</span></p>
-                    <p>Net Power: <span id="net-power">0</span></p>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>Remember, Arrakis is a harsh mistress. Plan wisely.</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
 </body>
 </html>
