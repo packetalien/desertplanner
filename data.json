@@ -1,56 +1,202 @@
-{
-  "materials": {
-    "plastone": {
-      "name": "Plastone",
-      "description": "An advanced, sandstorm-resistant material for faction-specific structures.",
-      "crafting_recipe": [
-        {
-          "refinery": "Large Ore Refinery",
-          "materials": [{"name": "Basalt Stone", "quantity": 175}, {"name": "Silicone Block", "quantity": 1}, {"name": "Water", "quantity": "50mL"}],
-          "yield": 250
-        }
-      ]
-    }
+[
+  {
+    "id": "construction_kit_t1",
+    "name": "Construction Kit",
+    "type": "Tool",
+    "tier": "Iron",
+    "description": "The basic tool required to construct and deconstruct base elements and placeables.",
+    "crafting_station": "Inventory (Hand Craft)",
+    "crafting_materials": [
+      {
+        "item_id": "salvaged_metal",
+        "quantity": 10
+      },
+      {
+        "item_id": "plant_fiber",
+        "quantity": 5
+      }
+    ],
+    "power_consumption_w": null,
+    "output_production": null,
+    "fuel_type": null,
+    "operational_notes": "Essential for all base building activities. The first step in establishing a foothold on Arrakis."
   },
-  "building_sets": [
-    {
-      "category": "Structures (CHOAM - Estimated)",
-      "items": [
-        {"name": "Standard Piece (Wall/Roof)", "material": "Granite Stone", "cost_min": 8, "cost_max": 10},
-        {"name": "Foundation", "material": "Granite Stone", "cost_min": 12, "cost_max": 15},
-        {"name": "Door", "material": "Granite Stone", "cost_min": 13, "cost_max": 17},
-        {"name": "Wide Door", "material": "Granite Stone", "cost_min": 24, "cost_max": 30},
-        {"name": "Hatch", "material": "Granite Stone", "cost_min": 12, "cost_max": 17}
-      ]
-    },
-    {
-      "category": "Structures (Atreides - Plastone)",
-      "unlock_cost": "80,000 Solari",
-      "note": "Individual piece costs are not yet available.",
-      "items": []
-    },
-    {
-      "category": "Structures (Harkonnen - Plastone)",
-      "unlock_cost": "80,000 Solari",
-      "note": "Individual piece costs are not yet available.",
-      "items": []
-    }
-  ],
-  "placeables": [
-    {
-      "category": "Utilities",
-      "items": [
-        {"name": "Sub-Fief Console", "power": -15, "cost": [{"name": "Salvaged Metal", "quantity": 25}]},
-        {"name": "Advanced Sub-Fief Console", "power": -15, "cost": [{"name": "Salvaged Metal", "quantity": 40}]},
-        {"name": "Fuel-Powered Generator", "power": 75, "cost": [{"name": "Salvaged Metal", "quantity": 45}]},
-        {"name": "Wind Turbine Omnidirectional", "power": 150, "cost": [{"name": "Steel Ingot", "quantity": 45}, {"name": "Cobalt Paste", "quantity": 65}, {"name": "Calibrated Servok", "quantity": 20}]},
-        {"name": "Wind Turbine Directional", "power": 350, "cost": [{"name": "Duraluminum Ingot", "quantity": 120}, {"name": "Cobalt Paste", "quantity": 160}, {"name": "Calibrated Servok", "quantity": 50}, {"name": "Spice Melange", "quantity": 3}]},
-        {"name": "Spice-Powered Generator", "power": 1000, "cost": [{"name": "Plastanium Ingot", "quantity": 430}, {"name": "Silicone Block", "quantity": 180}, {"name": "Spice Melange", "quantity": 270}, {"name": "Complex Machinery", "quantity": 100}, {"name": "Cobalt Paste", "quantity": 300}, {"name": "Advanced Machinery", "quantity": 40}]},
-        {"name": "Repair Station", "power": -20, "cost": [{"name": "Iron Ingot", "quantity": 40}]},
-        {"name": "Recycler", "power": -15, "cost": [{"name": "Copper Ingot", "quantity": 30}]},
-        {"name": "Windtrap", "power": -75, "cost": [{"name": "Steel Ingot", "quantity": 90}, {"name": "Silicone Block", "quantity": 30}, {"name": "Calibrated Servok", "quantity": 20}]},
-        {"name": "Large Windtrap", "power": -135, "cost": [{"name": "Silicone Block", "quantity": 250}, {"name": "Calibrated Servok", "quantity": 70}, {"name": "Spice Melange", "quantity": 5}, {"name": "Duraluminum Ingot", "quantity": 240}]}
-      ]
-    }
-  ]
-}
+  {
+    "id": "windtrap_t3",
+    "name": "Windtrap",
+    "type": "Utility",
+    "tier": "Steel",
+    "description": "A structure that passively collects water from the air's humidity. Essential for industrial-scale water production.",
+    "crafting_station": "Utilities Tab (Construction Tool)",
+    "crafting_materials": [
+      {
+        "item_id": "steel_ingot",
+        "quantity": 90
+      },
+      {
+        "item_id": "silicone_block",
+        "quantity": 30
+      },
+      {
+        "item_id": "calibrated_servok",
+        "quantity": 20
+      }
+    ],
+    "power_consumption_w": 75,
+    "output_production": [
+      {
+        "item_id": "water",
+        "quantity": 2700,
+        "rate_per_hour": "ml"
+      }
+    ],
+    "fuel_type": "Filter (Makeshift or Standard)",
+    "operational_notes": "Must be placed outdoors to function. Water generation is passive and continues while offline. A cornerstone of late-game industry."
+  },
+  {
+    "id": "filter_makeshift_t3",
+    "name": "Makeshift Filter",
+    "type": "Component",
+    "tier": "Steel",
+    "description": "A basic consumable filter required for the operation of a Windtrap.",
+    "crafting_station": "Survival Fabricator",
+    "crafting_materials": [
+      {
+        "item_id": "water",
+        "quantity": 60
+      },
+      {
+        "item_id": "steel_ingot",
+        "quantity": 3
+      },
+      {
+        "item_id": "plant_fiber",
+        "quantity": 5
+      }
+    ],
+    "power_consumption_w": null,
+    "output_production": null,
+    "fuel_type": null,
+    "operational_notes": "Consumed over time by the Windtrap. Represents an ongoing operational cost for water production."
+  },
+  {
+    "id": "filter_standard_t4",
+    "name": "Standard Filter",
+    "type": "Component",
+    "tier": "Aluminum",
+    "description": "A more advanced and likely longer-lasting filter for use in a Windtrap.",
+    "crafting_station": "Survival Fabricator",
+    "crafting_materials": [
+      {
+        "item_id": "water",
+        "quantity": 120
+      },
+      {
+        "item_id": "aluminum_ingot",
+        "quantity": 5
+      },
+      {
+        "item_id": "plant_fiber",
+        "quantity": 10
+      },
+      {
+        "item_id": "silicone_block",
+        "quantity": 4
+      }
+    ],
+    "power_consumption_w": null,
+    "output_production": null,
+    "fuel_type": null,
+    "operational_notes": "Higher tier filter, suggesting greater efficiency or duration compared to the Makeshift version."
+  },
+  {
+    "id": "generator_fuel_t1",
+    "name": "Fuel-Powered Generator",
+    "type": "Power",
+    "tier": "Iron",
+    "description": "An early-game power generator that provides a basic amount of energy.",
+    "crafting_station": "Placeables Tab (Construction Tool)",
+    "crafting_materials": [
+      { "item_id": "salvaged_metal", "quantity": 45 }
+    ],
+    "power_consumption_w": null,
+    "output_production": [
+      {
+        "item_id": "power",
+        "quantity": 75,
+        "rate_per_hour": "W"
+      }
+    ],
+    "fuel_type": "Fuel Cell",
+    "operational_notes": "Low power output. Ideal for starter bases but becomes inefficient at scale due to the placeable item limit per land claim."
+  },
+  {
+    "id": "turbine_directional_t3",
+    "name": "Directional Wind Turbine",
+    "type": "Power",
+    "tier": "Steel",
+    "description": "A high-efficiency power generator that harnesses wind power. Offers superior power density.",
+    "crafting_station": "Placeables Tab (Construction Tool)",
+    "crafting_materials": [
+        { "item_id": "duraluminum_ingot", "quantity": 120 },
+        { "item_id": "cobalt_paste", "quantity": 160 },
+        { "item_id": "calibrated_servok", "quantity": 50 },
+        { "item_id": "spice_melange", "quantity": 3 }
+    ],
+    "power_consumption_w": null,
+    "output_production": [
+      {
+        "item_id": "power",
+        "quantity": 350,
+        "rate_per_hour": "W"
+      }
+    ],
+    "fuel_type": "Lubricant",
+    "operational_notes": "The most critical power upgrade for scaling industrial operations. Its high output helps manage the placeable item limit."
+  },
+  {
+    "id": "plastone_t3",
+    "name": "Plastone",
+    "type": "Refined Material",
+    "tier": "Steel",
+    "description": "An artificial composite of Silicone and Basalt used in sandstorm-resistant construction.",
+    "crafting_station": "Medium Ore Refinery",
+    "crafting_materials": [
+      {
+        "item_id": "basalt_stone",
+        "quantity": 200
+      },
+      {
+        "item_id": "silicone_block",
+        "quantity": 1
+      },
+      {
+        "item_id": "water",
+        "quantity": 50
+      }
+    ],
+    "power_consumption_w": null,
+    "output_production": [
+      {
+        "item_id": "plastone",
+        "quantity": 250,
+        "rate_per_hour": null
+      }
+    ],
+    "fuel_type": null,
+    "operational_notes": "The premier building material for endgame and Deep Desert construction. Recipe efficiency improves with higher-tier refineries."
+  },
+  {
+    "id": "pentashield_t1",
+    "name": "Pentashield",
+    "type": "Defense",
+    "tier": "Varies",
+    "description": "A base's primary defensive energy shield, generated by the Sub-Fief console.",
+    "crafting_station": null,
+    "crafting_materials": [],
+    "power_consumption_w": 3,
+    "output_production": null,
+    "fuel_type": null,
+    "operational_notes": "Power consumption is not a flat rate. It consumes 3 Watts PER TILE of area covered. This scaling cost makes it a major power sink for large bases and a key factor in base design."
+  }
+]

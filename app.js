@@ -7,6 +7,8 @@ let nextItemId = 0; // Simple ID generator for items in currentBuild
 
 // DOM Elements (cache them for performance)
 let componentListDiv, selectedItemsListDiv, materialsSummaryListDiv, materialsSummaryDiscountedListDiv, netPowerSpan;
+// buildingData will be an array directly now
+// let buildingData = null; // To store the loaded JSON data - Now directly an array
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Calculator Initializing...");
@@ -35,8 +37,8 @@ async function loadBuildingData() {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        buildingData = await response.json();
-        console.log("Building data loaded successfully:", buildingData);
+        buildingData = await response.json(); // This will now be an array of items
+        console.log("Building data loaded successfully (now an array):", buildingData);
         populateItemSelectionPanel(); // Populate items once data is loaded
     } catch (error) {
         console.error("Could not load building data:", error);
@@ -55,141 +57,162 @@ function populateItemSelectionPanel() {
     componentListDiv.innerHTML = ''; // Clear previous items
 
     // Helper function to create item element
-    const createItemElement = (item, categoryName, itemType) => {
+    const createItemElement = (item) => { // Removed categoryName and itemType as direct params, derive from item
         const itemDiv = document.createElement('div');
         itemDiv.className = 'component-item';
+        if (item.tier) {
+            itemDiv.classList.add(`tier-${item.tier.toLowerCase().replace(/\s+/g, '-')}`);
+        }
 
         const nameEl = document.createElement('p');
         nameEl.className = 'item-name';
         nameEl.textContent = item.name;
+        if (item.tier) {
+            nameEl.textContent += ` (T${item.tier.match(/\d+/)?.[0] || item.tier})`; // Append Tier e.g. (T1)
+        }
         itemDiv.appendChild(nameEl);
 
-        const costDetails = [];
-        let chosenCostForAddition = null; // For items with a range, this will be cost_min
+        const detailsContainer = document.createElement('div');
+        detailsContainer.className = 'item-details-container';
 
-        if (itemType === 'placeable' && item.cost) {
-            item.cost.forEach(c => costDetails.push(`${c.name}: ${c.quantity}`));
-            if (item.power !== undefined) {
-                 costDetails.push(`Power: ${item.power > 0 ? '+' : ''}${item.power}`);
-            }
-        } else if (itemType === 'building_set_item' && item.material) { // CHOAM
-            costDetails.push(`${item.material}: ${item.cost_min} - ${item.cost_max}`);
-            costDetails.push(`${item.material}: ${item.cost_min} - ${item.cost_max}`);
-            // costDetails.push(`(Estimated)`); // This is now handled by CSS ::after
-            chosenCostForAddition = item.cost_min; // Default to min_cost
-            itemDiv.classList.add('cost-estimated-item');
-            itemDiv.title = `Estimated Cost: ${item.material} ${item.cost_min}-${item.cost_max}. Defaulting to ${item.cost_min}.`;
-        } else if (itemType === 'building_set_faction') { // Faction sets (category level) - these are category headers mostly
-            let factionNote = "";
-            if (categoryName.unlock_cost) factionNote += `Unlock: ${categoryName.unlock_cost}. `;
-            if (categoryName.note) factionNote += `${categoryName.note}`;
-            costDetails.push(factionNote.trim());
-            itemDiv.classList.add('cost-unavailable-item');
-            if(factionNote.trim()) itemDiv.title = factionNote.trim();
-        }
-
-
-        if (costDetails.length > 0) {
+        // Crafting Materials
+        if (item.crafting_materials && item.crafting_materials.length > 0) {
             const costEl = document.createElement('p');
-            costEl.className = 'item-cost';
-            costEl.innerHTML = costDetails.join('<br>');
-            itemDiv.appendChild(costEl);
+            costEl.className = 'item-crafting-materials';
+            costEl.innerHTML = `<strong>Cost:</strong> ${item.crafting_materials.map(c => `${c.item_id.replace(/_/g, ' ')}: ${c.quantity}`).join(', ')}`;
+            detailsContainer.appendChild(costEl);
+        } else {
+            const costEl = document.createElement('p');
+            costEl.className = 'item-crafting-materials';
+            costEl.innerHTML = `<strong>Cost:</strong> N/A`;
+            detailsContainer.appendChild(costEl);
         }
 
-        // Add button, unless it's a faction set with no items yet
-        if (!(itemType === 'building_set_faction' && (!item.items || item.items.length === 0))) {
-            const addButton = document.createElement('button');
-            addButton.className = 'add-item-btn';
-            addButton.textContent = 'Add';
-            addButton.onclick = () => {
-                // For building_set_item, we pass the specific item and its chosen cost
-                // For placeable, chosenCostForAddition is null, handleAddItem can derive cost from item.cost
-                // We need to pass a copy of the item to avoid modifications to original buildingData
-                const itemDataCopy = JSON.parse(JSON.stringify(item));
-                handleAddItem(itemDataCopy, itemType, chosenCostForAddition);
-            };
-            itemDiv.appendChild(addButton);
+        // Power Consumption
+        if (item.power_consumption_w !== null && item.power_consumption_w !== undefined) {
+            const powerConsumptionEl = document.createElement('p');
+            powerConsumptionEl.className = 'item-power-consumption';
+            powerConsumptionEl.innerHTML = `<strong>Power Drain:</strong> ${item.power_consumption_w} W`;
+            detailsContainer.appendChild(powerConsumptionEl);
         }
+
+        // Output Production
+        if (item.output_production && item.output_production.length > 0) {
+            item.output_production.forEach(op => {
+                const outputEl = document.createElement('p');
+                outputEl.className = 'item-output';
+                let outputText = `<strong>Output:</strong> ${op.item_id.replace(/_/g, ' ')}: ${op.quantity}`;
+                if (op.rate_per_hour) {
+                    outputText += ` ${op.rate_per_hour}`;
+                }
+                outputEl.innerHTML = outputText;
+                detailsContainer.appendChild(outputEl);
+            });
+        }
+
+        // Fuel Type
+        if (item.fuel_type) {
+            const fuelEl = document.createElement('p');
+            fuelEl.className = 'item-fuel';
+            fuelEl.innerHTML = `<strong>Fuel:</strong> ${item.fuel_type}`;
+            detailsContainer.appendChild(fuelEl);
+        }
+
+        // Crafting Station
+        if (item.crafting_station) {
+            const stationEl = document.createElement('p');
+            stationEl.className = 'item-station';
+            stationEl.innerHTML = `<strong>Crafted at:</strong> ${item.crafting_station}`;
+            detailsContainer.appendChild(stationEl);
+        }
+
+        itemDiv.appendChild(detailsContainer);
+
+        // Operational Notes (Tooltip or expandable)
+        if (item.operational_notes) {
+            itemDiv.title = item.operational_notes; // Simple tooltip for now for the whole item
+            const notesEl = document.createElement('p');
+            notesEl.className = 'item-operational-notes';
+            notesEl.innerHTML = `<strong>Notes:</strong> ${item.operational_notes}`;
+            detailsContainer.appendChild(notesEl); // Add to details container
+
+            // Optional: Keep indicator next to name if desired, but ensure it doesn't duplicate info badly
+            // const notesIndicator = document.createElement('span');
+            // notesIndicator.className = 'notes-indicator';
+            // notesIndicator.textContent = ' ℹ️'; // Info icon with space
+            // notesIndicator.title = item.operational_notes;
+            // nameEl.appendChild(notesIndicator);
+        }
+
+        const addButton = document.createElement('button');
+        addButton.className = 'add-item-btn';
+        addButton.textContent = 'Add';
+        addButton.onclick = () => {
+            const itemDataCopy = JSON.parse(JSON.stringify(item));
+            handleAddItem(itemDataCopy); // Pass the whole item, handleAddItem will parse it
+        };
+        itemDiv.appendChild(addButton);
 
         return itemDiv;
     };
 
-    // Populate Placeables
-    if (buildingData.placeables) {
-        buildingData.placeables.forEach(category => {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.className = 'component-category';
-            const categoryTitle = document.createElement('h3');
-            categoryTitle.textContent = category.category;
-            categoryDiv.appendChild(categoryTitle);
+    // Group items by type for categorization
+    const itemsByType = buildingData.reduce((acc, item) => {
+        const type = item.type || "Unknown"; // Default to "Unknown" if type is missing
+        if (!acc[type]) {
+            acc[type] = [];
+        }
+        acc[type].push(item);
+        return acc;
+    }, {});
 
-            category.items.forEach(item => {
-                categoryDiv.appendChild(createItemElement(item, category, 'placeable'));
-            });
-            componentListDiv.appendChild(categoryDiv);
+    // Sort categories by name (optional, but good for UX)
+    const sortedCategories = Object.keys(itemsByType).sort();
+
+    sortedCategories.forEach(type => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'component-category';
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.textContent = type.replace(/_/g, ' '); // Display type as category title
+        categoryDiv.appendChild(categoryTitle);
+
+        itemsByType[type].sort((a,b) => a.name.localeCompare(b.name)).forEach(item => { // Sort items within category
+            categoryDiv.appendChild(createItemElement(item));
         });
-    }
-
-    // Populate Building Sets
-    if (buildingData.building_sets) {
-        buildingData.building_sets.forEach(set => {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.className = 'component-category';
-            const categoryTitle = document.createElement('h3');
-            categoryTitle.textContent = set.category;
-            categoryDiv.appendChild(categoryTitle);
-
-            if (set.items && set.items.length > 0) {
-                set.items.forEach(item => {
-                    categoryDiv.appendChild(createItemElement(item, set, 'building_set_item'));
-                });
-            } else {
-                // Handle faction sets with no individual items listed yet (display note from category)
-                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'component-item cost-unavailable-item'; // Apply styling for unavailable
-                if(set.unlock_cost) {
-                    const unlockEl = document.createElement('p');
-                    unlockEl.className = 'item-note';
-                    unlockEl.textContent = `Unlock Cost: ${set.unlock_cost}`;
-                    itemDiv.appendChild(unlockEl);
-                }
-                if(set.note) {
-                    const noteEl = document.createElement('p');
-                    noteEl.className = 'item-note cost-unavailable';
-                    noteEl.textContent = set.note;
-                    itemDiv.appendChild(noteEl);
-                }
-                 // No "Add" button for these parent categories if no items
-                categoryDiv.appendChild(itemDiv);
-            }
-            componentListDiv.appendChild(categoryDiv);
-        });
-    }
+        componentListDiv.appendChild(categoryDiv);
+    });
 }
 
-function handleAddItem(itemData, itemType, chosenCostOverride) {
-    console.log("Adding item:", itemData, "Type:", itemType, "Chosen Cost Override:", chosenCostOverride);
+
+function handleAddItem(itemData) { // itemData is now the full new item structure
+    console.log("Adding item to build:", itemData);
+
+    // Calculate net power for this specific item
+    let itemNetPower = 0;
+    if (itemData.power_consumption_w !== null && itemData.power_consumption_w !== undefined) {
+        itemNetPower -= itemData.power_consumption_w;
+    }
+    if (itemData.output_production) {
+        itemData.output_production.forEach(op => {
+            if (op.item_id === "power" && op.quantity) {
+                itemNetPower += op.quantity;
+            }
+        });
+    }
 
     const buildItem = {
         id: nextItemId++,
         name: itemData.name,
-        type: itemType,
-        originalData: itemData, // Keep original for display details if needed
-        costs: [],
-        power: itemData.power // Store power directly if it exists
+        tier: itemData.tier,
+        item_type: itemData.type,
+        crafting_materials: itemData.crafting_materials ? JSON.parse(JSON.stringify(itemData.crafting_materials)) : [],
+        power_consumption_w: itemData.power_consumption_w, // Keep original for display if needed
+        output_production: itemData.output_production ? JSON.parse(JSON.stringify(itemData.output_production)) : [], // Keep original
+        fuel_type: itemData.fuel_type,
+        operational_notes: itemData.operational_notes,
+        net_power: itemNetPower // Store the calculated net power for this item
+        // originalData: JSON.parse(JSON.stringify(itemData)) // Optional: for deep reference
     };
-
-    if (itemType === 'placeable' && itemData.cost) {
-        buildItem.costs = JSON.parse(JSON.stringify(itemData.cost)); // Deep copy
-    } else if (itemType === 'building_set_item' && itemData.material && chosenCostOverride !== null) {
-        buildItem.costs = [{ name: itemData.material, quantity: chosenCostOverride }];
-        // Store the chosen cost for display
-        buildItem.displayCost = `${itemData.material}: ${chosenCostOverride} (Chosen from ${itemData.cost_min}-${itemData.cost_max} est.)`;
-    } else if (itemType === 'building_set_faction') {
-        // Faction items might not have direct costs but notes or unlock costs
-        buildItem.note = itemData.note || (itemData.unlock_cost ? `Unlock: ${itemData.unlock_cost}` : "Details TBD");
-    }
-    // else: item might have no cost, e.g. a category header if mistakenly added
 
     currentBuild.push(buildItem);
     updateCurrentBuildPanel();
@@ -198,8 +221,8 @@ function handleAddItem(itemData, itemType, chosenCostOverride) {
 
 function updateCurrentBuildPanel() {
     if (!selectedItemsListDiv) return;
-    console.log("Updating current build panel...");
-    selectedItemsListDiv.innerHTML = ''; // Clear previous items
+    // console.log("Updating current build panel with new item structure...");
+    selectedItemsListDiv.innerHTML = '';
 
     if (currentBuild.length === 0) {
         selectedItemsListDiv.innerHTML = '<p class="empty-build-message">Your build is currently empty. Add components from the left panel.</p>';
@@ -253,18 +276,21 @@ function updateCurrentBuildPanel() {
 }
 
 function calculateAndDisplayTotals() {
-    console.log("Calculating and displaying totals...");
+    // console.log("Calculating and displaying totals with new structure...");
     const totalMaterials = {};
     let totalNetPower = 0;
 
     currentBuild.forEach(item => {
-        if (item.costs) {
-            item.costs.forEach(cost => {
-                totalMaterials[cost.name] = (totalMaterials[cost.name] || 0) + cost.quantity;
+        // Aggregate crafting materials
+        if (item.crafting_materials) {
+            item.crafting_materials.forEach(material => {
+                totalMaterials[material.item_id] = (totalMaterials[material.item_id] || 0) + material.quantity;
             });
         }
-        if (item.power !== undefined) {
-            totalNetPower += item.power;
+
+        // Aggregate net power
+        if (item.net_power !== undefined) {
+            totalNetPower += item.net_power;
         }
     });
 
